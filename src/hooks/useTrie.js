@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import dictionary from '../data/manufacturers';
 import Trie from '../lib/Trie';
 
-export default  () => {    
+export default  (dictionary) => {    
     const [suggestions, setSuggestions] = useState([]);
     const [input, setInput] = useState('');
     const trie = new Trie();
