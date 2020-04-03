@@ -52,7 +52,7 @@ class Trie {
     }
 
     suggestions(word) {
-        const suggestions = [];
+        const suggestions = new Set();
         let node = this.getLastNode(word);
 
         if(!node) {
@@ -60,7 +60,7 @@ class Trie {
         }
 
         if(node.isEnd) {
-            suggestions.push(word);
+            suggestions.add(word);
         }
 
         const search = (node, input) => {
@@ -74,7 +74,7 @@ class Trie {
             }
 
             if(node.isEnd) {
-                suggestions.push(input);
+                suggestions.add(input);
             }            
         }
 
