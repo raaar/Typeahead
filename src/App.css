@@ -36,3 +36,24 @@
     transform: rotate(360deg);
   }
 }
+
+
+.typeahead {
+  margin: 0 auto;
+  height: auto;
+  max-width: 300px;
+  max-height: 200px;
+  overflow: auto;
+  border: 1px solid lightgray;
+}
+
+.typeahead-row {
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.typeahead-row.is-hover {
+  background: lightcyan;
+}
