@@ -1,7 +1,6 @@
-import React, { memo, useCallback, useMemo, useEffect, useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import classNames from 'classnames';
 import context from '../context';
-
 
 const setWordHighlight = (word, input) => {
     const re = new RegExp(`^${input}`);
@@ -17,10 +16,7 @@ const setWordHighlight = (word, input) => {
 
 export default (props) => {
     const { hasSuggestions, word, input, id} = props;
-
-    const { rowIndex, setRowIndex } = useContext(context);
-
-    const isSelected = rowIndex === id;
+    const { rowIndex, setRowIndex, setSelectedItem } = useContext(context);
 
     const formatSuggestion = () => {
         if(hasSuggestions) {
@@ -31,15 +27,17 @@ export default (props) => {
     }
 
     const rowClasses = classNames('typeahead-row', {
-        'is-hover': isSelected
+        'is-hover': rowIndex === id
     }); 
 
     const handleHover = () => setRowIndex(id);
+    const handleClick = () => setSelectedItem(word);
 
     return <div 
+        id={`row-${id}`}
         className={rowClasses} 
         onMouseOver={handleHover} 
-
+        onClick={handleClick}
         key={word}>
             {formatSuggestion()}
     </div>;

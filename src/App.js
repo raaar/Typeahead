@@ -1,14 +1,13 @@
 import React from 'react';
 import './App.css';
 
-
 import TypeAhead from './components/TypeAhead';
 import TypaheadProvider from './context/Provider';
 
 function App() {
   return (
     <div className="App">
-      <TypaheadProvider value={{test: "RAF"}}>  
+      <TypaheadProvider>  
         <TypeAhead />
       </TypaheadProvider>
     </div>

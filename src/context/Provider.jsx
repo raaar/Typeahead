@@ -6,17 +6,33 @@ const Provider = (props) => {
     const dictionary = manufacturers.map(item => item.toUpperCase());
     const [rowIndex, setRowIndex] = useState(false);
     const [dictionarySize, setDictionarySize] = useState(dictionary.length);
+    const [containerEl, setContainerEl] = useState(undefined);
+    const [selectedItem, setSelectedItem] = useState(undefined);
 
     const values = {
         dictionary,
         rowIndex,
         setRowIndex,
         setDictionarySize,
+        setContainerEl,
+        selectedItem,
+        setSelectedItem
+    }
+
+    const uiScroll = (block)=> {
+        if(!containerEl.current) { return; }
+
+        const rowEl = containerEl.current.querySelector(`#row-${rowIndex}`);
+        
+        if(rowEl && rowIndex) {
+            rowEl.scrollIntoView({ block });
+        }
     }
 
     const handleKeys = ({key}) => {
-        if(key === 'ArrowUp') {
+        if(key === 'ArrowUp') {        
             setRowIndex((state) => {
+
                 let goTo = state - 1;
                 if(goTo < 0) {
                     return dictionarySize - 1;
@@ -24,6 +40,9 @@ const Provider = (props) => {
                 
                 return goTo;
             });
+            
+            uiScroll("end")
+
         }
 
         if(key === 'ArrowDown') {
@@ -35,16 +54,18 @@ const Provider = (props) => {
 
                 return goTo
             })
+
+            uiScroll("start")
         }
     }
 
     useEffect(()=> {
-        window.addEventListener('keyup', handleKeys);
+        window.addEventListener('keydown', handleKeys);
         
         return () => {
-            window.removeEventListener('keyup', handleKeys);
+            window.removeEventListener('keydown', handleKeys);
         }
-    }, [dictionarySize]);
+    }, [dictionarySize, rowIndex]);
 
 
     return (
