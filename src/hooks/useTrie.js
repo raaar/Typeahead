@@ -9,23 +9,23 @@ import Trie from '../lib/Trie';
  */
 
 export default  (dictionary) => {    
-    const [suggestions, setSuggestions] = useState([]);
-    const [input, setInput] = useState('');
-    const trie = new Trie();
+  const [suggestions, setSuggestions] = useState([]);
+  const [input, setInput] = useState('');
+  const trie = new Trie();
 
-    dictionary.map(item => trie.add(item.toUpperCase()))
+  dictionary.map(item => trie.add(item.toUpperCase()))
 
-    const handleChange = (e) => {
-        e.persist();
-        const userInput = e.target.value.toUpperCase() || '';
+  const handleChange = (e) => {
+    e.persist();
+    const userInput = e.target.value.toUpperCase() || '';
 
-        setInput(()=> userInput);
-        setSuggestions(() => trie.suggestions(userInput));
-    };
+    setInput(()=> userInput);
+    setSuggestions(() => trie.suggestions(userInput));
+  };
 
-    return { 
-        suggestions,
-        input,
-        handleChange
-    };
+  return { 
+    suggestions,
+    input,
+    handleChange
+  };
 }

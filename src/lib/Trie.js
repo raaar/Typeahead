@@ -1,87 +1,87 @@
 class TrieNode {
-    constructor() {
-        this.keys = new Map();
-        this._isEnd = false;
-    }
+  constructor() {
+    this.keys = new Map();
+    this._isEnd = false;
+  }
 
-    get isEnd() {
-        return this._isEnd;
-    }
+  get isEnd() {
+    return this._isEnd;
+  }
 
-    set isEnd(bool) {
-        this._isEnd = bool;
-    }
+  set isEnd(bool) {
+    this._isEnd = bool;
+  }
 }
 
 class Trie {
-    constructor() {
-        this.root = new TrieNode();   
+  constructor() {
+    this.root = new TrieNode();   
+  }
+
+  add(word) {
+    let node = this.root;
+    let input = word;
+
+    while(input.length > 0) {
+      if(!node.keys.has(input[0])) {
+        node.keys.set(input[0], new TrieNode());
+      }
+      
+      node = node.keys.get(input[0]);
+
+      input = input.substring(1);
     }
 
-    add(word) {
-        let node = this.root;
-        let input = word;
+    node.isEnd = true;
+  }
 
-        while(input.length > 0) {
-            if(!node.keys.has(input[0])) {
-                node.keys.set(input[0], new TrieNode());
-            }
-            
-            node = node.keys.get(input[0]);
+  getLastNode(word) {
+    let node = this.root;
+    let input = word;
 
-            input = input.substring(1);
-        }
-
-        node.isEnd = true;
+    while(input.length > 0) {
+      if(!node.keys.has(input[0])) {
+        return false;
+      }
+      
+      node = node.keys.get(input[0]);
+      input = input.substring(1);
     }
 
-    getLastNode(word) {
-        let node = this.root;
-        let input = word;
+    return node;
+  }
 
-        while(input.length > 0) {
-            if(!node.keys.has(input[0])) {
-                return false;
-            }
-            
-            node = node.keys.get(input[0]);
-            input = input.substring(1);
-        }
+  suggestions(word) {
+    const suggestions = new Set();
+    let node = this.getLastNode(word);
 
-        return node;
+    if(!node) {
+      return suggestions;
     }
 
-    suggestions(word) {
-        const suggestions = new Set();
-        let node = this.getLastNode(word);
-
-        if(!node) {
-            return suggestions;
-        }
-
-        if(node.isEnd) {
-            suggestions.add(word);
-        }
-
-        const search = (node, input) => {
-            if(input.length !== 0) {
-
-                for(let letter of node.keys.keys()) {
-                    if(node.keys.has(letter)) {
-                        search(node.keys.get(letter), input.concat(letter));
-                    }
-                }
-            }
-
-            if(node.isEnd) {
-                suggestions.add(input);
-            }            
-        }
-
-        search(node, word);
-
-        return suggestions;
+    if(node.isEnd) {
+      suggestions.add(word);
     }
+
+    const search = (node, input) => {
+      if(input.length !== 0) {
+
+        for(let letter of node.keys.keys()) {
+          if(node.keys.has(letter)) {
+            search(node.keys.get(letter), input.concat(letter));
+          }
+        }
+      }
+
+      if(node.isEnd) {
+        suggestions.add(input);
+      }            
+    }
+
+    search(node, word);
+
+    return suggestions;
+  }
 }
 
 export default Trie;

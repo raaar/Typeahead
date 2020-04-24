@@ -1,6 +1,4 @@
 import React from 'react';
-import './App.css';
-
 import TypeAhead from './components/TypeAhead';
 import TypaheadProvider from './context/Provider';
 
